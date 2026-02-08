@@ -118,12 +118,6 @@ workflow-agent-simulator/
 - `npm run db:studio` - Open Prisma Studio
 - `npm run db:migrate` - Run database migrations
 
-## 📚 Documentation
-
-- [Deployment Guide](./DEPLOYMENT_GUIDE.md) - Deploy to Vercel
-- [Airtable Setup](./AIRTABLE_SETUP.md) - Configure Airtable integration
-- [Testing Checklist](./TESTING_CHECKLIST.md) - Comprehensive testing guide
-
 ## 🎯 Key Highlights
 
 - **No AI Required**: Deterministic rule-based workflow engine
@@ -131,10 +125,6 @@ workflow-agent-simulator/
 - **Real Integration**: Live Airtable CRM integration
 - **Full Observability**: Complete execution timeline
 - **Edge Cases**: Handles escalations, missing data, validation errors
-
-## 📝 License
-
-MIT
 
 ---
 

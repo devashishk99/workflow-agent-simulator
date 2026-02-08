@@ -85,10 +85,15 @@ export default function BusinessConfig() {
       }
 
       if (data.openingHours && data.openingHours.length > 0) {
-        const hoursMap = new Map(data.openingHours.map((oh: OpeningHour) => [oh.dayOfWeek, oh]))
-        const merged = DAYS_OF_WEEK.map(day => {
-          const existing = hoursMap.get(day.value)
-          return existing || {
+        const hoursMap = new Map<number, OpeningHour>(
+          data.openingHours.map((oh: OpeningHour) => [oh.dayOfWeek, oh])
+        )
+        const merged: OpeningHour[] = DAYS_OF_WEEK.map((day): OpeningHour => {
+          const existing: OpeningHour | undefined = hoursMap.get(day.value)
+          if (existing) {
+            return existing
+          }
+          return {
             dayOfWeek: day.value,
             openTime: '09:00',
             closeTime: '17:00',

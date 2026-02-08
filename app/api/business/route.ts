@@ -142,21 +142,28 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    if (!updated) {
+      return NextResponse.json(
+        { error: 'Business not found after update' },
+        { status: 500 }
+      )
+    }
+
     return NextResponse.json({
       success: true,
       business: {
-        id: updated!.id,
-        name: updated!.name,
-        timezone: updated!.timezone
+        id: updated.id,
+        name: updated.name,
+        timezone: updated.timezone
       },
-      openingHours: updated!.openingHours.map((oh: typeof updated.openingHours[0]) => ({
+      openingHours: updated.openingHours.map((oh: (typeof updated.openingHours)[number]) => ({
         id: oh.id,
         dayOfWeek: oh.dayOfWeek,
         openTime: oh.openTime,
         closeTime: oh.closeTime,
         isClosed: oh.isClosed
       })),
-      services: updated!.services.map((s: typeof updated.services[0]) => ({
+      services: updated.services.map((s: (typeof updated.services)[number]) => ({
         id: s.id,
         name: s.name,
         duration: s.duration

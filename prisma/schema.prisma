@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Business {
+  id        String   @id @default(uuid())
+  name      String
+  timezone  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  openingHours OpeningHours[]
+  services     Service[]
+  messages     Message[]
+  workflowRuns WorkflowRun[]
+
+  @@map("businesses")
+}
+
+model OpeningHours {
+  id         String   @id @default(uuid())
+  businessId String
+  dayOfWeek  Int      // 0-6 (Monday-Sunday)
+  openTime   String   // HH:mm format
+  closeTime  String   // HH:mm format
+  isClosed   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@map("opening_hours")
+  @@unique([businessId, dayOfWeek])
+}
+
+model Service {
+  id         String   @id @default(uuid())
+  businessId String
+  name       String
+  duration   Int      // minutes
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@map("services")
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  businessId String
+  channel    String   // web/email/sms
+  rawMessage String
+  createdAt  DateTime @default(now())
+
+  business      Business       @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  workflowRuns  WorkflowRun[]
+
+  @@map("messages")
+}
+
+model WorkflowRun {
+  id         String   @id @default(uuid())
+  messageId  String
+  businessId String
+  status     String   // success/failed/partial
+  context    String   // JSON string of WorkflowContext
+  createdAt  DateTime @default(now())
+
+  message    Message    @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  business   Business   @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  logEvents  LogEvent[]
+
+  @@map("workflow_runs")
+}
+
+model LogEvent {
+  id            String   @id @default(uuid())
+  workflowRunId String
+  timestamp     DateTime @default(now())
+  eventType     String
+  severity      String   // info/warning/error
+  message       String
+  metadata      String?  // JSON string (optional)
+
+  workflowRun WorkflowRun @relation(fields: [workflowRunId], references: [id], onDelete: Cascade)
+
+  @@map("log_events")
+}
+

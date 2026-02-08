@@ -1,0 +1,10 @@
+// BACKUP: Original SQLite schema
+// Keep this for reference or if you need to switch back to SQLite for local dev
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Rest of schema is the same - models don't need to change
+

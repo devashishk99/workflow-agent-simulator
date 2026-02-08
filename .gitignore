@@ -44,4 +44,4 @@ next-env.d.ts
 /prisma/*.db-journal
 
 # docs (optional - uncomment if you want to ignore docs folder)
-# /docs
+/docs

@@ -2,8 +2,6 @@
 
 A deterministic workflow engine that simulates an AI agent implementation platform without using AI. The system processes customer messages, validates business rules, creates bookings, and integrates with Airtable CRM.
 
-**Live Demo:** [Add your Vercel URL here]
-
 ## 🎯 Project Overview
 
 This project demonstrates the core competencies of a **Founding Solutions Engineer**:
